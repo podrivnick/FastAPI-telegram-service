@@ -1,50 +1,29 @@
 import logging
 
-from application.handlers.arts import get_random_art_handler
-from application.handlers.start import start_handler
-from settings.config import get_config
-from telegram import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Update,
+from application.handlers.keyboard import (
+    arts_handler,
+    category_handler,
+    choose_art_style_handler,
 )
+from settings.config import get_config
+from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
-    CallbackQueryHandler,
     CommandHandler,
     ContextTypes,
+    filters,
+    MessageHandler,
 )
 
 
-async def category_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
+async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    config = get_config()
 
-    if query.data == "arts":
-        await arts_handler(update, context)
-
-
-async def arts_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        [
-            InlineKeyboardButton("Renaissance", callback_data="renaissance"),
-            InlineKeyboardButton("Romanticism", callback_data="romanticism"),
-        ],
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    await update.callback_query.message.reply_text(
-        "Выберите стиль искусства:",
-        reply_markup=reply_markup,
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=config.GREETING_TEXT,
     )
-
-
-async def choose_art_style_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    art_direction = query.data
-    await get_random_art_handler(update, context, art_direction)
+    await category_handler(update, context)
 
 
 def start_app() -> ApplicationBuilder:
@@ -58,16 +37,15 @@ def start_app() -> ApplicationBuilder:
     application = ApplicationBuilder().token(config.TG_TOKEN).build()
 
     get_start_handler = CommandHandler("start", start_handler)
+    category_message_handler = MessageHandler(filters.Text(["arts"]), arts_handler)
+    art_style_message_handler = MessageHandler(
+        filters.Text(["Renaissance", "Romanticism"]),
+        choose_art_style_handler,
+    )
 
     application.add_handler(get_start_handler)
-    application.add_handler(CallbackQueryHandler(category_handler, pattern="^arts$"))
-
-    application.add_handler(
-        CallbackQueryHandler(
-            choose_art_style_handler,
-            pattern="^(renaissance|romanticism)$",
-        ),
-    )
+    application.add_handler(category_message_handler)
+    application.add_handler(art_style_message_handler)
 
     return application
 

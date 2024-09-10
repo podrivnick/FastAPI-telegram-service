@@ -1,5 +1,3 @@
-import logging
-
 from infrastructure.containers.factories import get_container
 from infrastructure.services.base import BaseWebArtsService
 from telegram import Update
@@ -16,8 +14,6 @@ async def get_random_art_handler(
     async with container() as request_container:
         service = await request_container.get(BaseWebArtsService)
         art = await service.get_random_art(art_direction)
-
-        logging.info(f"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{art}")
 
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
