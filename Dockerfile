@@ -42,4 +42,4 @@ RUN pip install --upgrade --no-cache-dir pip==24.0 \
 
 COPY /app/ /app/**
 
-EXPOSE 8080
+EXPOSE 8000

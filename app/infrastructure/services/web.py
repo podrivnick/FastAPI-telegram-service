@@ -19,8 +19,12 @@ from infrastructure.services.convertors import (
 class WebArtsService(BaseWebArtsService):
     async def get_random_art(self, art_direction: str) -> GetArtfromAPIResponses:
         response = await self.http_client.post(
-            url=urljoin(base=self.base_url, url=GET_RANDOM_ART_URL),
-            params={"art_direction": art_direction},
+            url=urljoin(
+                base=self.base_url,
+                url=GET_RANDOM_ART_URL,
+            ),
+            json={"art_direction": art_direction},
+            follow_redirects=True,
         )
 
         if not response.is_success:
@@ -29,9 +33,10 @@ class WebArtsService(BaseWebArtsService):
                 response_content=response.content.decode(),
             )
 
-        res = await response.json()
+        res = response.json()
 
-        return convert_json_art_response_to_art_dto(res)
+        art_res = convert_json_art_response_to_art_dto(res["result"][0])
+        return art_res
 
 
 @dataclass

@@ -1,3 +1,5 @@
+import logging
+
 from application.handlers.arts import get_random_art_handler
 from application.handlers.start import start_handler
 from settings.config import get_config
@@ -30,7 +32,8 @@ async def arts_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(
+
+    await update.callback_query.message.reply_text(
         "Выберите стиль искусства:",
         reply_markup=reply_markup,
     )
@@ -40,19 +43,25 @@ async def choose_art_style_handler(update: Update, context: ContextTypes.DEFAULT
     query = update.callback_query
     await query.answer()
 
-    art_style = query.data
-    await get_random_art_handler(update, context, art_style)
+    art_direction = query.data
+    await get_random_art_handler(update, context, art_direction)
 
 
 def start_app() -> ApplicationBuilder:
     config = get_config()
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+    )
 
     application = ApplicationBuilder().token(config.TG_TOKEN).build()
 
     get_start_handler = CommandHandler("start", start_handler)
 
     application.add_handler(get_start_handler)
-    application.add_handler(CallbackQueryHandler(category_handler))
+    application.add_handler(CallbackQueryHandler(category_handler, pattern="^arts$"))
+
     application.add_handler(
         CallbackQueryHandler(
             choose_art_style_handler,
