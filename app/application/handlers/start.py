@@ -1,4 +1,4 @@
-from app.settings.config import get_config
+from settings.config import get_config
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,

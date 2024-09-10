@@ -1,18 +1,18 @@
 from dataclasses import dataclass
 from urllib.parse import urljoin
 
-from app.domain.arts.dto import GetArtfromAPIResponses
-from app.infrastructure.exceptions.arts import ArtNotReceivedException
-from app.infrastructure.exceptions.flowers import FlowerNotReceivedException
-from app.infrastructure.services.config import (
+from domain.arts.dto import GetArtfromAPIResponses
+from infrastructure.exceptions.arts import ArtNotReceivedException
+from infrastructure.exceptions.flowers import FlowerNotReceivedException
+from infrastructure.services.base import BaseWebArtsService
+from infrastructure.services.config import (
     GET_RANDOM_ART_URL,
     GET_RANDOM_FLOWER_URL,
 )
-from app.infrastructure.services.convertors import (
+from infrastructure.services.convertors import (
     convert_json_art_response_to_art_dto,
     convert_json_flower_response_to_flower_dto,
 )
-from app.infrastructure.services.services import BaseWebArtsService
 
 
 @dataclass

@@ -4,7 +4,7 @@ from abc import (
 )
 from dataclasses import dataclass
 
-from app.domain.arts.dto import GetArtfromAPIResponses
+from domain.arts.dto import GetArtfromAPIResponses
 from httpx import AsyncClient
 
 

@@ -1,5 +1,5 @@
-from app.infrastructure.containers.factories import get_container
-from app.infrastructure.services.services import BaseWebArtsService
+from infrastructure.containers.factories import get_container
+from infrastructure.services.base import BaseWebArtsService
 from telegram import Update
 from telegram.ext import ContextTypes
 

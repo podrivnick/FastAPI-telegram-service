@@ -1,10 +1,10 @@
 from functools import lru_cache
 
-from app.infrastructure.containers.providers import DefaultProvider
 from dishka import (
     AsyncContainer,
     make_async_container,
 )
+from infrastructure.containers.providers import DefaultProvider
 
 
 @lru_cache(1)

@@ -1,6 +1,6 @@
-from app.application.handlers.arts import get_random_art_handler
-from app.application.handlers.start import start_handler
-from app.settings.config import get_config
+from application.handlers.arts import get_random_art_handler
+from application.handlers.start import start_handler
+from settings.config import get_config
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,

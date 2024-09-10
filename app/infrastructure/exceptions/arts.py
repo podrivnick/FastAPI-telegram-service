@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass
 
-from app.infrastructure.exceptions.base import BaseApplicationException
+from infrastructure.exceptions.base import BaseApplicationException
 
 
 @dataclass(frozen=True, eq=False)

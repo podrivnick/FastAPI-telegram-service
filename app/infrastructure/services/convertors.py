@@ -1,5 +1,5 @@
-from app.domain.arts.dto import GetArtfromAPIResponses
-from app.domain.flowers.dto import GetFlowerfromAPIResponses
+from domain.arts.dto import GetArtfromAPIResponses
+from domain.flowers.dto import GetFlowerfromAPIResponses
 
 
 def convert_json_art_response_to_art_dto(
