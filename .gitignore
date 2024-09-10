@@ -1,0 +1,9 @@
+.env
+*.pyc
+__pycache__/
+.idea/
+.vscode/
+.ruff_cache/
+
+.pytest_cahce/
+data/
