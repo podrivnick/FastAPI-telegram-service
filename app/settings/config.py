@@ -27,6 +27,15 @@ class Config(BaseSettings):
     WEB_API_URL: str = env("WEB_API_URL", default="http://app:8000")
     KAFKA_BROKER_URL: str = env("KAFKA_BROKER_URL", default="kafka:29092")
 
+    GREETING_TEXT: str = env(
+        "GREETING_TEXT",
+        default=(
+            "Добро пожаловать в бот техподдержки.\n"
+            "Пожалуйста выберите чат для работы с клиентом.\nПолучить список всех чатов: "
+            "/chats, выбрать чат /set_chats <oid чата>."
+        ),
+    )
+
 
 @lru_cache(1)
 def get_config() -> Config:
