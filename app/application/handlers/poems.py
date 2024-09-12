@@ -40,8 +40,8 @@ def format_poem(poem: GetPoemfromAPIResponses) -> str:
     formatted_poem = (
         f"{escaped_author}\n\n"
         f"*{escaped_title}\n\n*"
-        f"{escaped_text}\n\n"
-        f"*Дата:* {escaped_date}"
+        f"{escaped_text}\n"
+        f"{' ' * 10}*Дата:* {escaped_date}"
     )
 
     return formatted_poem
