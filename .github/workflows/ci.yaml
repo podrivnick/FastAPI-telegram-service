@@ -1,0 +1,40 @@
+name: UserServiceTest
+
+on:
+  workflow_call:
+
+  pull_request:
+    branches: [ master, ci/cd ]
+  push:
+    branches: [ master, ci/cd ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12
+
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+
+    - name: Create .env file
+      run: |
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
+
+    - name: Build all containers
+      run: |
+          docker-compose -f docker_compose/bot.yaml \
+                         --env-file .env.example up --build -d
+
+    - name: Stop services
+      run: |
+          docker-compose -f docker_compose/bot.yaml \
+                         down

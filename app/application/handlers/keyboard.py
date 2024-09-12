@@ -29,8 +29,8 @@ async def flower_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def arts_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        ["Renaissance", "Romanticism"],
         ["Назад"],
+        ["Renaissance", "Romanticism"],
     ]
     reply_markup = ReplyKeyboardMarkup(
         keyboard,
@@ -39,7 +39,7 @@ async def arts_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        "Выберите стиль искусства:",
+        "Выберите направление:",
         reply_markup=reply_markup,
     )
 
@@ -54,8 +54,8 @@ async def choose_art_style_handler(update: Update, context: ContextTypes.DEFAULT
 
 async def poems_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        ["А.С. Пушкин", "М.Ю. Лермонтов"],
         ["Назад"],
+        ["А.С. Пушкин", "М.Ю. Лермонтов"],
     ]
     reply_markup = ReplyKeyboardMarkup(
         keyboard,
@@ -64,7 +64,7 @@ async def poems_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        "Выберите стиль искусства:",
+        "Выберите автора:",
         reply_markup=reply_markup,
     )
 
