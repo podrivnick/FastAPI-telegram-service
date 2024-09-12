@@ -35,6 +35,11 @@ class Config(BaseSettings):
         ),
     )
 
+    AWS_ACCESS_KEY_ID: str = env("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY: str = env("AWS_SECRET_ACCESS_KEY")
+    AWS_REGION_NAME: str = env("AWS_REGION_NAME", default="us-east-1")
+    EXPIRATION_PHOTO_LINK: int = env("EXPIRATION_PHOTO", default=3600)
+
 
 @lru_cache(1)
 def get_config() -> Config:

@@ -1,6 +1,11 @@
 from dataclasses import dataclass
 from urllib.parse import urljoin
 
+import boto3
+from botocore.exceptions import (
+    NoCredentialsError,
+    PartialCredentialsError,
+)
 from domain.arts.dto import GetArtfromAPIResponses
 from domain.flowers.dto import GetFlowerfromAPIResponses
 from domain.poems.dto import GetPoemfromAPIResponses
@@ -46,6 +51,30 @@ class WebArtsService(BaseWebArtsService):
 
         art_res = convert_json_art_response_to_art_dto(res["result"][0])
         return art_res
+
+    async def get_art_photo_from_remote_storage(
+        self,
+        storage_name: str,
+        storage_path: str,
+    ):
+        # TODO: create service for getting s3_client
+        s3_client = boto3.client(
+            "s3",
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
+            region_name=self.region_name,
+        )
+        try:
+            response = s3_client.generate_presigned_url(
+                "get_object",
+                Params={"Bucket": storage_name, "Key": storage_path},
+                ExpiresIn=self.expiration_photo_link,
+            )
+        except (NoCredentialsError, PartialCredentialsError) as e:
+            print(e)
+            return None
+
+        return response
 
 
 @dataclass

@@ -40,6 +40,10 @@ class DefaultProvider(Provider):
         return WebArtsService(
             http_client=self.get_http_art_client(),
             base_url=self.get_configs().WEB_API_URL,
+            aws_access_key_id=self.get_configs().AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=self.get_configs().AWS_SECRET_ACCESS_KEY,
+            region_name=self.get_configs().AWS_REGION_NAME,
+            expiration_photo_link=self.get_configs().EXPIRATION_PHOTO_LINK,  # seconds
         )
 
     @provide(scope=Scope.REQUEST)

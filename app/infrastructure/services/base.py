@@ -14,9 +14,21 @@ from httpx import AsyncClient
 class BaseWebArtsService(ABC):
     http_client: AsyncClient
     base_url: str
+    aws_access_key_id: str
+    aws_secret_access_key: str
+    region_name: str
+    expiration_photo_link: int
 
     @abstractmethod
     async def get_random_art(self) -> GetArtfromAPIResponses:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def get_art_photo_from_remote_storage(
+        self,
+        storage_name: str,
+        storage_path: str,
+    ):
         raise NotImplementedError()
 
 

@@ -14,6 +14,7 @@ async def get_random_art_handler(
     async with container() as request_container:
         service = await request_container.get(BaseWebArtsService)
         art = await service.get_random_art(art_direction)
+        art_photo = await service.get_art_photo_from_remote_storage("galery", art.art)
 
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -23,7 +24,7 @@ async def get_random_art_handler(
 
         await context.bot.send_photo(
             chat_id=update.effective_chat.id,
-            photo=open(art.art, "rb"),
+            photo=art_photo,
             caption=art.art_name,
             parse_mode="MarkdownV2",
         )
