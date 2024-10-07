@@ -30,7 +30,7 @@ async def flower_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def arts_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ["Назад"],
-        ["Renaissance", "Romanticism"],
+        ["Baroque", "Romanticism", "Classicism", "Renaissance"],
     ]
     reply_markup = ReplyKeyboardMarkup(
         keyboard,

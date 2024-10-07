@@ -97,6 +97,30 @@ class WebFlowersService(BaseWebFlowersService):
         flower_res = convert_json_flower_response_to_flower_dto(res["result"][0])
         return flower_res
 
+    async def get_flower_photo_from_remote_storage(
+        self,
+        storage_name: str,
+        storage_path: str,
+    ):
+        # TODO: create service for getting s3_client
+        s3_client = boto3.client(
+            "s3",
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
+            region_name=self.region_name,
+        )
+        try:
+            response = s3_client.generate_presigned_url(
+                "get_object",
+                Params={"Bucket": storage_name, "Key": storage_path},
+                ExpiresIn=self.expiration_photo_link,
+            )
+        except (NoCredentialsError, PartialCredentialsError) as e:
+            print(e)
+            return None
+
+        return response
+
 
 @dataclass
 class WebPoemsService(BaseWebPoemsService):

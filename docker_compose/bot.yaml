@@ -15,6 +15,7 @@ services:
       - ../.env
 
     command: "python main.py"
+    restart: unless-stopped
     networks:
       - backend
 

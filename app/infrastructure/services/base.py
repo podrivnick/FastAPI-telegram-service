@@ -36,9 +36,21 @@ class BaseWebArtsService(ABC):
 class BaseWebFlowersService(ABC):
     http_client: AsyncClient
     base_url: str
+    aws_access_key_id: str
+    aws_secret_access_key: str
+    region_name: str
+    expiration_photo_link: int
 
     @abstractmethod
     async def get_random_flower(self) -> GetFlowerfromAPIResponses:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def get_flower_photo_from_remote_storage(
+        self,
+        storage_name: str,
+        storage_path: str,
+    ):
         raise NotImplementedError()
 
 

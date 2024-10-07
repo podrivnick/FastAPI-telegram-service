@@ -1,3 +1,4 @@
+from application.handlers.utils import escape_markdown_v2
 from infrastructure.containers.factories import get_container
 from infrastructure.services.base import BaseWebFlowersService
 from telegram import Update
@@ -13,6 +14,14 @@ async def get_random_flower_handler(
     async with container() as request_container:
         service = await request_container.get(BaseWebFlowersService)
         flower = await service.get_random_flower()
+        flower_photo_link_from_bucket = (
+            await service.get_flower_photo_from_remote_storage(
+                storage_name="galeryshuffle",
+                storage_path=flower.flower_path,
+            )
+        )
+
+        escape_markdown_v2(flower.flower_name)
 
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -22,7 +31,7 @@ async def get_random_flower_handler(
 
         await context.bot.send_photo(
             chat_id=update.effective_chat.id,
-            photo=open(flower.flower_path, "rb"),
+            photo=flower_photo_link_from_bucket,
             caption=flower.flower_name,
             parse_mode="MarkdownV2",
         )

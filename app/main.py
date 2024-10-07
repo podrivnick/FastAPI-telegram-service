@@ -52,7 +52,7 @@ def start_app() -> ApplicationBuilder:
     )
 
     art_style_message_handler = MessageHandler(
-        filters.Text(["Назад", "Renaissance", "Romanticism"]),
+        filters.Text(["Назад", "Baroque", "Romanticism", "Classicism", "Renaissance"]),
         choose_art_style_handler,
     )
     poem_style_message_handler = MessageHandler(
